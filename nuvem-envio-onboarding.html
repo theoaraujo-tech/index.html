@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Onboarding · Relacionamento · Nuvem Envio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --blue: #0057FF;
+  --cyan: #00C8FF;
+  --dark: #080F1E;
+  --card: #0D1B35;
+  --border: rgba(0,87,255,0.25);
+  --text: #E8F0FF;
+  --muted: rgba(232,240,255,0.5);
+}
+
+body {
+  background: #030810;
+  font-family: 'Sora', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px 16px;
+  color: var(--text);
+}
+
+.deck-wrapper {
+  width: 100%;
+  max-width: 960px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.slide-container {
+  width: 100%;
+  aspect-ratio: 16/9;
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 0 80px rgba(0,87,255,0.12), 0 30px 80px rgba(0,0,0,0.6);
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  padding: 48px 56px;
+  display: none;
+  flex-direction: column;
+  background: var(--dark);
+  animation: fadeIn 0.35s ease;
+}
+
+.slide.active { display: flex; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* BG glow decorations */
+.slide::before {
+  content: '';
+  position: absolute;
+  top: -120px; right: -120px;
+  width: 450px; height: 450px;
+  background: radial-gradient(circle, rgba(0,87,255,0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+.slide::after {
+  content: '';
+  position: absolute;
+  bottom: -80px; left: -80px;
+  width: 320px; height: 320px;
+  background: radial-gradient(circle, rgba(0,200,255,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ── SHARED COMPONENTS ── */
+.slide-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  opacity: 0.7;
+  margin-bottom: 6px;
+}
+
+.slide-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+
+.glow-line {
+  width: 72px; height: 3px;
+  background: linear-gradient(90deg, var(--blue), var(--cyan));
+  border-radius: 10px;
+  box-shadow: 0 0 14px var(--blue);
+  margin: 14px auto;
+}
+
+/* ── SLIDE 1: Boas-vindas ── */
+.s1 {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0;
+  background: linear-gradient(135deg, #040B1A 0%, #081229 60%, #050D20 100%);
+}
+
+.s1 .tag {
+  background: rgba(0,87,255,0.15);
+  border: 1px solid rgba(0,87,255,0.4);
+  color: var(--cyan);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  padding: 6px 18px;
+  border-radius: 100px;
+  margin-bottom: 20px;
+  display: inline-block;
+}
+
+.s1 .wave {
+  font-size: 52px;
+  display: inline-block;
+  animation: wave 2.5s ease-in-out infinite;
+  margin-bottom: 10px;
+}
+
+@keyframes wave {
+  0%,100% { transform: rotate(0deg); }
+  15%     { transform: rotate(20deg); }
+  30%     { transform: rotate(-10deg); }
+  45%     { transform: rotate(16deg); }
+  60%     { transform: rotate(-6deg); }
+}
+
+.s1 h1 {
+  font-size: 54px;
+  font-weight: 800;
+  line-height: 1.05;
+  background: linear-gradient(135deg, #ffffff 30%, var(--cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 4px;
+}
+
+.s1 .subtitle {
+  font-size: 15px;
+  color: var(--muted);
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.3px;
+  margin-top: 6px;
+}
+
+/* ── SLIDE 2: Equipe ── */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr 1fr;
+  gap: 12px;
+  flex: 1;
+}
+
+.member-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 12px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.member-card:hover {
+  border-color: rgba(0,87,255,0.6);
+  transform: translateY(-3px);
+}
+
+.avatar {
+  width: 60px; height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--blue), var(--cyan));
+  color: #fff;
+  flex-shrink: 0;
+  overflow: hidden;
+  border: 2px solid rgba(0,87,255,0.4);
+}
+
+.avatar img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.member-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.member-role {
+  font-size: 9.5px;
+  color: var(--muted);
+  line-height: 1.4;
+  font-family: 'Inter', sans-serif;
+}
+
+.member-tag {
+  font-size: 9px;
+  background: rgba(0,87,255,0.15);
+  border: 1px solid rgba(0,87,255,0.35);
+  color: var(--cyan);
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-weight: 600;
+}
+
+/* ── SLIDE 3: Expectativas ── */
+.expect-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  flex: 1;
+}
+
+.expect-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.expect-card h4 {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.expect-item {
+  font-size: 11px;
+  color: rgba(232,240,255,0.72);
+  font-family: 'Inter', sans-serif;
+  padding-left: 14px;
+  position: relative;
+  line-height: 1.5;
+  margin-top: 4px;
+}
+
+.expect-item::before {
+  content: '›';
+  position: absolute;
+  left: 0;
+  color: var(--blue);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+/* ── SLIDE 4: Métricas ── */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  flex: 1;
+}
+
+.metric-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.metric-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(0,200,255,0.4);
+}
+
+.metric-icon { font-size: 22px; margin-bottom: 2px; }
+
+.metric-val {
+  font-size: 22px;
+  font-weight: 800;
+  background: linear-gradient(90deg, #fff, var(--cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+
+.metric-label {
+  font-size: 10px;
+  color: var(--muted);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.45;
+}
+
+/* ── SLIDE 5: Timeline ── */
+.timeline {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  padding-left: 36px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 10px; top: 8px; bottom: 8px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--blue), var(--cyan));
+  border-radius: 2px;
+}
+
+.tl-item {
+  display: flex;
+  gap: 16px;
+  position: relative;
+  align-items: flex-start;
+}
+
+.tl-dot {
+  position: absolute;
+  left: -30px; top: 4px;
+  width: 13px; height: 13px;
+  border-radius: 50%;
+  background: var(--blue);
+  border: 2px solid var(--cyan);
+  box-shadow: 0 0 10px var(--blue);
+}
+
+.tl-year {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--cyan);
+  min-width: 38px;
+  line-height: 1.4;
+}
+
+.tl-text {
+  font-size: 11px;
+  color: rgba(232,240,255,0.68);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.55;
+  flex: 1;
+}
+
+/* ── SLIDE 6: Áreas ── */
+.areas-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr 1fr;
+  gap: 10px;
+  flex: 1;
+}
+
+.area-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.area-card:hover {
+  border-color: rgba(0,200,255,0.4);
+  transform: translateY(-3px);
+}
+
+.area-icon { font-size: 22px; }
+
+.area-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.area-badge {
+  font-size: 9px;
+  background: rgba(0,87,255,0.15);
+  border: 1px solid rgba(0,87,255,0.3);
+  color: var(--cyan);
+  padding: 2px 8px;
+  border-radius: 100px;
+  font-weight: 600;
+  width: fit-content;
+}
+
+.area-desc {
+  font-size: 10px;
+  color: var(--muted);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.55;
+  flex: 1;
+}
+
+/* ── SLIDE 7: Ferramentas ── */
+.tools-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.tool-row {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 16px;
+  align-items: center;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 13px 18px;
+  transition: border-color 0.2s;
+}
+
+.tool-row:hover { border-color: rgba(0,87,255,0.5); }
+
+.tool-name {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--cyan);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tool-desc {
+  font-size: 11px;
+  color: rgba(232,240,255,0.65);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.5;
+}
+
+/* ── SLIDE 8: KPIs ── */
+.kpi-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  flex: 1;
+}
+
+.kpi-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.kpi-section-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.kpi-section-title.ra {
+  background: rgba(255, 180, 0, 0.1);
+  border: 1px solid rgba(255, 180, 0, 0.3);
+  color: #FFB400;
+}
+
+.kpi-section-title.ops {
+  background: rgba(0, 87, 255, 0.12);
+  border: 1px solid rgba(0, 87, 255, 0.35);
+  color: var(--cyan);
+}
+
+.kpi-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  flex: 1;
+}
+
+.kpi-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+}
+
+.kpi-card.ra-card {
+  border-color: rgba(255,180,0,0.2);
+  background: rgba(255,180,0,0.05);
+}
+
+.kpi-card.ops-card {
+  border-color: rgba(0,87,255,0.25);
+}
+
+.kpi-card.featured {
+  grid-column: span 2;
+  background: linear-gradient(135deg, rgba(255,180,0,0.12), rgba(255,140,0,0.06));
+  border-color: rgba(255,180,0,0.4);
+  align-items: center;
+  text-align: center;
+  flex-direction: row;
+  gap: 16px;
+  padding: 16px 20px;
+}
+
+.kpi-num {
+  font-size: 28px;
+  font-weight: 800;
+  background: linear-gradient(90deg, #fff, var(--cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+
+.kpi-card.ra-card .kpi-num {
+  background: linear-gradient(90deg, #fff, #FFB400);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.kpi-card.featured .kpi-num { font-size: 36px; }
+
+.kpi-label {
+  font-size: 10.5px;
+  color: var(--muted);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.4;
+}
+
+.kpi-badge {
+  font-size: 9px;
+  background: rgba(255,180,0,0.15);
+  border: 1px solid rgba(255,180,0,0.35);
+  color: #FFB400;
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-weight: 600;
+  margin-top: 4px;
+  width: fit-content;
+}
+
+/* ── SLIDE FINAL ── */
+.s-final {
+  background: linear-gradient(135deg, #040B1A, #081229);
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 16px;
+}
+
+.s-final .big-emoji { font-size: 52px; }
+
+.s-final h1 {
+  font-size: 46px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #fff 30%, var(--cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.s-final p {
+  font-size: 14px;
+  color: var(--muted);
+  font-family: 'Inter', sans-serif;
+  max-width: 400px;
+  line-height: 1.7;
+}
+
+.s-final .brand {
+  font-size: 12px;
+  color: rgba(232,240,255,0.3);
+  font-family: 'Inter', sans-serif;
+  margin-top: 4px;
+}
+
+/* ── CONTROLS ── */
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px;
+}
+
+.nav-btns { display: flex; gap: 10px; }
+
+.nav-btn {
+  background: rgba(0,87,255,0.12);
+  border: 1px solid rgba(0,87,255,0.35);
+  color: var(--text);
+  font-family: 'Sora', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 24px;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.nav-btn:hover:not(:disabled) {
+  background: rgba(0,87,255,0.28);
+  border-color: var(--blue);
+  box-shadow: 0 0 16px rgba(0,87,255,0.2);
+}
+
+.nav-btn:disabled { opacity: 0.28; cursor: not-allowed; }
+
+.progress-dots {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+}
+
+.dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.18);
+  cursor: pointer;
+  transition: all 0.28s;
+}
+
+.dot.active {
+  width: 24px;
+  border-radius: 4px;
+  background: var(--blue);
+  box-shadow: 0 0 10px var(--blue);
+}
+
+.slide-counter {
+  font-size: 12px;
+  color: var(--muted);
+  font-family: 'Inter', sans-serif;
+  min-width: 40px;
+  text-align: right;
+}
+</style>
+</head>
+<body>
+
+<div class="deck-wrapper">
+  <div class="slide-container">
+
+    <!-- 01: Boas-vindas -->
+    <div class="slide s1 active" id="s0">
+      <div class="tag">Nuvem Envio · Onboarding 2026</div>
+      <div class="wave">👋</div>
+      <h1>Bem-vindos ao<br>Relacionamento</h1>
+      <div class="glow-line"></div>
+      <p class="subtitle">Assistentes de Relacionamento</p>
+    </div>
+
+    <!-- 02: Equipe -->
+    <div class="slide" id="s1">
+      <div class="slide-label">Nosso Time</div>
+      <div class="slide-title">Quem você vai encontrar</div>
+      <!-- 📸 FOTOS: substitua o texto dentro de data-initials pela URL da foto de cada pessoa.
+           Exemplo: <img src="https://link-da-foto.jpg" alt="Nome"> dentro do .avatar -->
+      <div class="team-grid">
+        <div class="member-card">
+          <div class="avatar" data-initials="C">C</div>
+          <div class="member-name">Camila Lucio</div>
+          <div class="member-role">Gerente de CS &amp; Relacionamento</div>
+        </div>
+        <div class="member-card">
+          <div class="avatar" data-initials="T">T</div>
+          <div class="member-name">Theo Araújo</div>
+          <div class="member-role">Coordenador de CS &amp; Relacionamento</div>
+        </div>
+        <div class="member-card">
+          <div class="avatar" data-initials="Li">Li</div>
+          <div class="member-name">Ligia Correia</div>
+          <div class="member-role">Team Leader N2 &amp; RA</div>
+        </div>
+        <div class="member-card">
+          <div class="avatar" data-initials="L">L</div>
+          <div class="member-name">Laura Reis</div>
+          <div class="member-role">Team Leader N1</div>
+        </div>
+        <div class="member-card">
+          <div class="avatar" data-initials="J">J</div>
+          <div class="member-name">Jaqueline Kinikel</div>
+          <div class="member-role">Team Leader N1</div>
+        </div>
+        <div class="member-card">
+          <div class="avatar" style="background: linear-gradient(135deg,#00C8FF,#0057FF); font-size:18px; font-weight:800;">28</div>
+          <div class="member-name">Assistentes de Relacionamento</div>
+          <div class="member-role">Time de Atendimento</div>
+          <div class="member-tag">N1 &amp; N2</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03: Expectativas -->
+    <div class="slide" id="s2">
+      <div class="slide-label">Combinados</div>
+      <div class="slide-title">Expectativas &amp; Combinados</div>
+      <div class="expect-grid">
+        <div class="expect-card">
+          <h4><span>📅</span> Rotina Diária</h4>
+          <div class="expect-item">Checar agenda diariamente e aceitar/recusar invites</div>
+          <div class="expect-item">Responder e-mails quando solicitado</div>
+          <div class="expect-item">Pontualidade nos meets e câmeras abertas</div>
+        </div>
+        <div class="expect-card">
+          <h4><span>🏠</span> Gestão Home Office</h4>
+          <div class="expect-item">Abrir primeiro ticket no início da jornada</div>
+          <div class="expect-item">Manter conexão e infraestrutura adequadas</div>
+          <div class="expect-item">Comunicar ausências pessoais e técnicas</div>
+        </div>
+        <div class="expect-card">
+          <h4><span>🎓</span> Em Treinamento</h4>
+          <div class="expect-item">Anotar dúvidas para debater ao final do dia</div>
+          <div class="expect-item">Participar ativamente e abrir o microfone</div>
+          <div class="expect-item">Câmera aberta em ambiente silencioso</div>
+        </div>
+        <div class="expect-card">
+          <h4><span>💬</span> Comunicação</h4>
+          <div class="expect-item">Atenção máxima ao envio de novos invites</div>
+          <div class="expect-item">Slack como principal canal interno de comunicação</div>
+          <div class="expect-item">O processo é um quebra-cabeças — no fim tudo faz sentido 🧩</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04: Métricas Nuvem Envio -->
+    <div class="slide" id="s3">
+      <div class="slide-label">Nuvem Envio</div>
+      <div class="slide-title">Referência em logística para e-commerce</div>
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-icon">📦</div>
+          <div class="metric-val">9,1MM</div>
+          <div class="metric-label">pacotes enviados em 2025</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon">⚡</div>
+          <div class="metric-val">77%</div>
+          <div class="metric-label">entregas em 1 ou 2 dias</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon">📉</div>
+          <div class="metric-val">40%</div>
+          <div class="metric-label">redução em custos logísticos</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon">🚀</div>
+          <div class="metric-val">+18%</div>
+          <div class="metric-label">conversão extra p/ clientes Next</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon">🏭</div>
+          <div class="metric-val">64k</div>
+          <div class="metric-label">capacidade diária XD SP</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon">📬</div>
+          <div class="metric-val">+1MM</div>
+          <div class="metric-label">envios/mês · até 60% mais barato</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon">🤝</div>
+          <div class="metric-val">+1k</div>
+          <div class="metric-label">parceiros implantadores</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon">🏪</div>
+          <div class="metric-val">+5%</div>
+          <div class="metric-label">conversão p/ clientes Nuvemshop</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 05: Nossa História -->
+    <div class="slide" id="s4">
+      <div class="slide-label">Trajetória</div>
+      <div class="slide-title">Nossa História</div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-year">2014</div>
+          <div class="tl-text">Nascemos como solução inovadora de coleta, empacotamento e envio para e-commerces.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-year">2018</div>
+          <div class="tl-text">Top 50 startups mais inovadoras da América Latina. Ganhamos o prêmio LinkedIn Top Startups.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-year">2019</div>
+          <div class="tl-text">Mudamos para um Cross Docking 5× maior em Vila Leopoldina, São Paulo.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-year">2021</div>
+          <div class="tl-text">XDMG inaugura em Contagem/MG. Ganhamos novamente o LinkedIn Top Startups e nos tornamos empresa Nuvemshop.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-year">2023</div>
+          <div class="tl-text">Alcançamos o Selo RA 1000. XDMG expande em BH com capacidade de +1.000 pacotes/hora.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-year">2024</div>
+          <div class="tl-text">XDMG muda para Betim com +42% de área útil e +10k pacotes/dia. Indicados ao Prêmio Reclame Aqui.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 06: O que cada área faz -->
+    <div class="slide" id="s5">
+      <div class="slide-label">Estrutura</div>
+      <div class="slide-title">O que cada área faz?</div>
+      <div class="areas-grid">
+        <div class="area-card">
+          <div class="area-icon">💼</div>
+          <div class="area-name">CS</div>
+          <div class="area-badge">Customer Success</div>
+          <div class="area-desc">Ponto de contato interno nas frentes de operações, comercial e integrações. Garante a experiência completa do cliente.</div>
+        </div>
+        <div class="area-card">
+          <div class="area-icon">🎯</div>
+          <div class="area-name">Relacionamento</div>
+          <div class="area-badge">Você está aqui!</div>
+          <div class="area-desc">Atendimento ágil das ocorrências de entrega via Chat e E-mail. Tratativas e backoffice de demandas prioritárias.</div>
+        </div>
+        <div class="area-card">
+          <div class="area-icon">📊</div>
+          <div class="area-name">BKO</div>
+          <div class="area-badge">Backoffice</div>
+          <div class="area-desc">Acompanhamento diário do status das encomendas e tratativas de casos prioritários com as transportadoras.</div>
+        </div>
+        <div class="area-card">
+          <div class="area-icon">🚚</div>
+          <div class="area-name">First Mile</div>
+          <div class="area-badge">Coleta</div>
+          <div class="area-desc">Agendamento, cancelamento e alteração de coletas. Gestão de feriados, peak season e coleta extra.</div>
+        </div>
+        <div class="area-card">
+          <div class="area-icon">🏭</div>
+          <div class="area-name">Cross Docking</div>
+          <div class="area-badge">XDSP · XDMG · XDSC</div>
+          <div class="area-desc">Processamento das encomendas, apontamento de divergências e dropoff de alguns sellers. Operações em SP, MG e SC.</div>
+        </div>
+        <div class="area-card">
+          <div class="area-icon">📦</div>
+          <div class="area-name">Last Mile</div>
+          <div class="area-badge">Entrega</div>
+          <div class="area-desc">Gestão das transportadoras parceiras, garantindo o melhor serviço de entrega para nossos clientes.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 07: Ferramentas -->
+    <div class="slide" id="s6">
+      <div class="slide-label">Ferramentas</div>
+      <div class="slide-title">Como a gente trabalha</div>
+      <div class="tools-list">
+        <div class="tool-row">
+          <div class="tool-name">🎫 Zendesk</div>
+          <div class="tool-desc">Principal ferramenta de atendimento e gestão de backlog para os canais Chat e E-mail.</div>
+        </div>
+        <div class="tool-row">
+          <div class="tool-name">🔍 Atendeaê</div>
+          <div class="tool-desc">Consulta de encomendas com tracking detalhado, dimensões, frete, datas de entrega e informações financeiras e cadastrais.</div>
+        </div>
+        <div class="tool-row">
+          <div class="tool-name">📚 Intranet</div>
+          <div class="tool-desc">Repositório com boas práticas e instruções de todos os parceiros e processos de atendimento.</div>
+        </div>
+        <div class="tool-row">
+          <div class="tool-name">🔧 JIRA</div>
+          <div class="tool-desc">Abertura e acompanhamento de chamados para o XD — movimentação e busca de pacotes.</div>
+        </div>
+        <div class="tool-row">
+          <div class="tool-name">🚛 Portais (~30)</div>
+          <div class="tool-desc">Acesso a aproximadamente 30 portais de transportadoras parceiras para rastreio e tratativas operacionais.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 08: KPIs -->
+    <div class="slide" id="s7">
+      <div class="slide-label">Performance</div>
+      <div class="slide-title">Indicadores · Relacionamento</div>
+      <div class="kpi-layout">
+
+        <!-- COLUNA 1: Reclame Aqui -->
+        <div class="kpi-section">
+          <div class="kpi-section-title ra">⭐ Reclame Aqui · Reputação</div>
+          <div class="kpi-cards">
+            <div class="kpi-card ra-card featured">
+              <div style="font-size:28px;">🏆</div>
+              <div>
+                <div class="kpi-num">RA 1000</div>
+                <div class="kpi-label">Reputação máxima · 2º Melhor empresa</div>
+                <div class="kpi-badge">Excelente em atendimento</div>
+              </div>
+            </div>
+            <div class="kpi-card ra-card">
+              <div class="kpi-num">8.7</div>
+              <div class="kpi-label">Nota no Reclame Aqui</div>
+            </div>
+            <div class="kpi-card ra-card">
+              <div class="kpi-num">92.4%</div>
+              <div class="kpi-label">Reclamações resolvidas</div>
+            </div>
+            <div class="kpi-card ra-card">
+              <div class="kpi-num">99%</div>
+              <div class="kpi-label">Taxa de resposta</div>
+            </div>
+            <div class="kpi-card ra-card">
+              <div class="kpi-num">77.8%</div>
+              <div class="kpi-label">Voltaria a fazer negócio</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- COLUNA 2: Operação diária -->
+        <div class="kpi-section">
+          <div class="kpi-section-title ops">💬 Operação Diária · Chat &amp; E-mail</div>
+          <div class="kpi-cards">
+            <div class="kpi-card ops-card">
+              <div class="kpi-num">97%</div>
+              <div class="kpi-label">Satisfação nos chats avaliados</div>
+            </div>
+            <div class="kpi-card ops-card">
+              <div class="kpi-num">10 min</div>
+              <div class="kpi-label">TMA — Tempo médio de atendimento</div>
+            </div>
+            <div class="kpi-card ops-card">
+              <div class="kpi-num">96%</div>
+              <div class="kpi-label">Meta de SLA nos tickets de e-mail</div>
+            </div>
+            <div class="kpi-card ops-card">
+              <div class="kpi-num">30+</div>
+              <div class="kpi-label">Tickets de e-mail resolvidos/dia</div>
+            </div>
+            <div class="kpi-card ops-card">
+              <div class="kpi-num">3</div>
+              <div class="kpi-label">Chats simultâneos por assistente</div>
+            </div>
+            <div class="kpi-card ops-card">
+              <div class="kpi-num">10</div>
+              <div class="kpi-label">E-mails simultâneos por assistente</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 09: Final -->
+    <div class="slide s-final" id="s8">
+      <div class="big-emoji">🚀</div>
+      <h1>Boa Jornada!</h1>
+      <div class="glow-line"></div>
+      <p>O processo funciona como um quebra-cabeças — no começo parece que nada vai se encaixar. Depois, tudo faz sentido. 🧩</p>
+      <p class="brand">Time de Relacionamento · Nuvem Envio · 2026</p>
+    </div>
+
+  </div><!-- /slide-container -->
+
+  <div class="controls">
+    <div class="nav-btns">
+      <button class="nav-btn" id="prev-btn" onclick="navigate(-1)" disabled>← Anterior</button>
+      <button class="nav-btn" id="next-btn" onclick="navigate(1)">Próximo →</button>
+    </div>
+    <div class="progress-dots" id="dots"></div>
+    <div class="slide-counter" id="counter">1 / 9</div>
+  </div>
+</div>
+
+<script>
+  const TOTAL = 9;
+  let cur = 0;
+
+  const dotsEl = document.getElementById('dots');
+  for (let i = 0; i < TOTAL; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.addEventListener('click', () => goTo(i));
+    dotsEl.appendChild(d);
+  }
+
+  function goTo(n) {
+    document.getElementById('s' + cur).classList.remove('active');
+    dotsEl.children[cur].classList.remove('active');
+    cur = n;
+    document.getElementById('s' + cur).classList.add('active');
+    dotsEl.children[cur].classList.add('active');
+    document.getElementById('counter').textContent = (cur + 1) + ' / ' + TOTAL;
+    document.getElementById('prev-btn').disabled = cur === 0;
+    document.getElementById('next-btn').disabled = cur === TOTAL - 1;
+  }
+
+  function navigate(dir) {
+    const next = cur + dir;
+    if (next >= 0 && next < TOTAL) goTo(next);
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') navigate(1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   navigate(-1);
+  });
+</script>
+</body>
+</html>
